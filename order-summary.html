@@ -68,8 +68,28 @@ cursor:pointer;
 </div>
 
 <button id="payBtn">Pay Now</button>
-
 </div>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+document.getElementById("payBtn").addEventListener("click", function(){
+  let handler = PaystackPop.setup({
+    key: 'pk_live_d4e57ba3229fb8d228ddbb1192f8026b8b9a1fb2',
+    email: 'customer@email.com',
+    amount: 3000,
+    currency: 'GHS',
 
+    callback: function(response){
+      alert("Payment successful. Reference: " + response.reference);
+      window.location.href = "index.html";
+    },
+
+    onClose: function(){
+      alert("Payment cancelled");
+    }
+  });
+
+  handler.openIframe();
+});
+</script>
 </body>
 </html>
