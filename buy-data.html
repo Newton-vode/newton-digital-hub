@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy Data - Newton's Digital Hub</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    margin:0;
+}
+
+header{
+    background:#0d6efd;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.container{
+    max-width:500px;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+select,input{
+    width:100%;
+    padding:12px;
+    margin-top:5px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:16px;
+}
+
+.price{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+    color:#0d6efd;
+    text-align:center;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0a58ca;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h2>Buy Data Bundles</h2>
+</header>
+
+<div class="container">
+
+<label>Network</label>
+<select id="network">
+<option>MTN</option>
+<option>Telecel</option>
+<option>AirtelTigo</option>
+</select>
+
+<label>Phone Number</label>
+<input type="tel" placeholder="Enter phone number">
+
+<label>Bundle</label>
+<select id="bundle"></select>
+
+<div class="price" id="price">Price: GH₵0.00</div>
+
+<button>Proceed to Payment</button>
+
+</div>
+
+<script>
+const prices = {
+MTN:{
+"1 GB":6.12,
+"2 GB":12.24,
+"3 GB":18.36,
+"4 GB":24.48,
+"5 GB":30.60
+},
+Telecel:{
+"5 GB":25.48,
+"10 GB":51.,
+"15 GB":76.72,
+"20 GB":102,
+"25 GB":127.10,
+"30 GB":154
+},
+AirtelTigo:{
+"5 GB":27,
+"10 GB":54,
+"15 GB":81,
+"20 GB":108,
+"25 GB":135,
+"30 GB":162
+}
+};
+
+const network=document.getElementById("network");
+const bundle=document.getElementById("bundle");
+const price=document.getElementById("price");
+
+function loadBundles(){
+bundle.innerHTML="";
+const items=prices[network.value];
+
+for(let item in items){
+let option=document.createElement("option");
+option.text=item;
+option.value=item;
+bundle.appendChild(option);
+}
+
+updatePrice();
+}
+
+function updatePrice(){
+price.innerHTML="Price: GH₵"+prices[network.value][bundle.value].toFixed(2);
+}
+
+network.addEventListener("change",loadBundles);
+bundle.addEventListener("change",updatePrice);
+
+loadBundles();
+</script>
+
+</body>
+</html>
