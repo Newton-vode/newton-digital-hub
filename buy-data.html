@@ -3,117 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Buy Data - Newton's Digital Hub</title>
 
 <style>
 
 *{
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-    background:#f4f6f9;
-    margin:0;
+background:#f4f6f9;
 }
 
 header{
-    background:#0d6efd;
-    color:white;
-    text-align:center;
-    padding:25px;
+background:#0d6efd;
+color:white;
+padding:20px;
+text-align:center;
 }
 
 .container{
-
-    max-width:500px;
-    background:white;
-    margin:30px auto;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
-
+max-width:500px;
+margin:30px auto;
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
 }
 
 h2{
-    text-align:center;
+text-align:center;
+margin-bottom:20px;
+color:#0d6efd;
 }
 
 label{
-
-    display:block;
-    margin-top:15px;
-    font-weight:bold;
-
+display:block;
+margin-top:15px;
+font-weight:bold;
 }
 
-input, select{
-
-    width:100%;
-    padding:13px;
-    margin-top:6px;
-    border:1px solid #ccc;
-    border-radius:7px;
-    font-size:16px;
-
+input,select{
+width:100%;
+padding:12px;
+margin-top:6px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
 }
-
 
 .summary{
-
-    background:#f1f5ff;
-    padding:15px;
-    margin-top:20px;
-    border-radius:8px;
-
+margin-top:20px;
+padding:15px;
+background:#eef4ff;
+border-radius:8px;
 }
-
 
 .summary p{
-
-    margin:8px 0;
-
+margin:8px 0;
+font-size:17px;
 }
-
 
 button{
-
-    width:100%;
-    margin-top:20px;
-    padding:15px;
-    background:#0d6efd;
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-size:18px;
-    cursor:pointer;
-
+width:100%;
+padding:15px;
+margin-top:20px;
+background:#0d6efd;
+color:white;
+border:none;
+border-radius:8px;
+font-size:18px;
+cursor:pointer;
 }
-
 
 button:hover{
-
-    background:#084298;
-
+background:#0b5ed7;
 }
-
 
 #message{
-
-    margin-top:20px;
-    text-align:center;
-    font-weight:bold;
-
+margin-top:20px;
+text-align:center;
+font-weight:bold;
+color:green;
 }
 
-
 </style>
-
 </head>
 
 <body>
-
 
 <header>
 
@@ -123,66 +103,43 @@ button:hover{
 
 </header>
 
-
 <div class="container">
 
-
-<h2>Data Purchase</h2>
-
-
-
+<h2>Data Bundle Purchase</h2>
 
 <label>Email Address</label>
-
 <input type="email" id="email" placeholder="Enter your email">
 
-
 <label>Phone Number</label>
-
 <input type="tel" id="phone" placeholder="Enter phone number">
-
 
 <label>Network</label>
 
 <select id="network">
-
 <option>MTN</option>
-
 <option>Telecel</option>
-
 <option>AirtelTigo</option>
-
 </select>
-
 
 <label>Bundle</label>
 
 <select id="bundle"></select>
 
-
 <div class="summary">
 
 <h3>Order Summary</h3>
 
-<p id="summaryNetwork">Network: MTN</p>
-
-<p id="summaryBundle">Bundle: </p>
-
-<p id="summaryPrice">Amount: GH₵0.00</p>
-
+<p id="summaryNetwork"></p>
+<p id="summaryBundle"></p>
+<p id="summaryPrice"></p>
 
 </div>
 
-
 <button id="payBtn">
-
 Proceed to Payment
-
 </button>
 
-
 <div id="message"></div>
-
 
 </div><script>
 
@@ -216,7 +173,6 @@ AirtelTigo:{
 
 };
 
-
 const network = document.getElementById("network");
 const bundle = document.getElementById("bundle");
 
@@ -224,220 +180,127 @@ const summaryNetwork = document.getElementById("summaryNetwork");
 const summaryBundle = document.getElementById("summaryBundle");
 const summaryPrice = document.getElementById("summaryPrice");
 
-
 function loadBundles(){
 
-    bundle.innerHTML="";
+bundle.innerHTML = "";
 
-    let data = prices[network.value];
+const data = prices[network.value];
 
-    for(let item in data){
+for(const item in data){
 
-        let option = document.createElement("option");
+const option = document.createElement("option");
 
-        option.value = item;
-        option.text = item;
+option.value = item;
+option.text = item;
 
-        bundle.appendChild(option);
-
-    }
-
-    updateSummary();
+bundle.appendChild(option);
 
 }
 
+updateSummary();
 
+}
 
 function updateSummary(){
 
-    let amount = prices[network.value][bundle.value];
+const amount = prices[network.value][bundle.value];
 
-    summaryNetwork.innerHTML =
-    "Network: " + network.value;
+summaryNetwork.innerHTML =
+"Network: " + network.value;
 
-    summaryBundle.innerHTML =
-    "Bundle: " + bundle.value;
+summaryBundle.innerHTML =
+"Bundle: " + bundle.value;
 
-    summaryPrice.innerHTML =
-    "Amount: GH₵" + amount.toFixed(2);
+summaryPrice.innerHTML =
+"Amount: GH₵" + amount.toFixed(2);
 
 }
 
+network.addEventListener("change", loadBundles);
 
-
-network.addEventListener("change",loadBundles);
-
-bundle.addEventListener("change",updateSummary);
-
+bundle.addEventListener("change", updateSummary);
 
 loadBundles();
 
-</script>
-
-
-<script src="https://js.paystack.co/v1/inline.js"></script>
-
+</script><script src="https://js.paystack.co/v1/inline.js"></script>
 
 <script>
 
 const payBtn = document.getElementById("payBtn");
 
-
 payBtn.addEventListener("click", function(){
 
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
 
-const name =
-document.getElementById("name").value;
+    if(email === "" || phone === ""){
 
+        document.getElementById("message").innerHTML =
+        "Please enter your email and phone number.";
 
-const email =
-document.getElementById("email").value;
+        return;
 
+    }
 
-const phone =
-document.getElementById("phone").value;
+    const amount = prices[network.value][bundle.value] * 100;
 
+    let handler = PaystackPop.setup({
 
+        key: "pk_live_d4e57ba3229fb8d228ddbb1192f8026b8b9a1fb2",
 
-if(name==="" || email==="" || phone===""){
+        email: email,
 
-document.getElementById("message").innerHTML =
-"Please fill all details before payment.";
+        amount: amount,
 
-return;
+        currency: "GHS",
 
-}
+        metadata:{
 
+            custom_fields:[
 
+                {
+                    display_name:"Phone Number",
+                    variable_name:"phone",
+                    value:phone
+                },
 
-const amount =
-prices[network.value][bundle.value] * 100;
+                {
+                    display_name:"Network",
+                    variable_name:"network",
+                    value:network.value
+                },
 
+                {
+                    display_name:"Bundle",
+                    variable_name:"bundle",
+                    value:bundle.value
+                }
 
+            ]
 
-let handler = PaystackPop.setup({
+        },
 
+        callback:function(response){
 
-key:"pk_live_d4e57ba3229fb8d228ddbb1192f8026b8b9a1fb2",
+            window.location.href =
+            "success.html?reference=" + response.reference;
 
+        },
 
-email:email,
+        onClose:function(){
 
+            document.getElementById("message").innerHTML =
+            "Payment cancelled.";
 
-amount:amount,
+        }
 
+    });
 
-currency:"GHS",
-
-
-
-metadata:{
-
-custom_fields:[
-
-{
-
-display_name:"Customer Name",
-
-variable_name:"customer_name",
-
-value:name
-
-},
-
-{
-
-display_name:"Phone Number",
-
-variable_name:"phone",
-
-value:phone
-
-},
-
-{
-
-display_name:"Bundle",
-
-variable_name:"bundle",
-
-value:bundle.value
-
-},
-
-{
-
-display_name:"Network",
-
-variable_name:"network",
-
-value:network.value
-
-}
-
-]
-
-},
-
-
-
-callback: function(response){
-
-    window.location.href =
-    "success.html?reference=" + response.reference;
-
-},
-
-
-
-onClose:function(){
-
-
-document.getElementById("message").innerHTML =
-
-"Payment cancelled.";
-
-}
-
-
+    handler.openIframe();
 
 });
-
-
-handler.openIframe();
-
-
-});
-
 
 </script>
 
-<a href="https://wa.me/233556248318" class="whatsapp" target="_blank">
-💬
-</a>
-
-<style>
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-width:60px;
-height:60px;
-background:#25D366;
-color:white;
-border-radius:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:30px;
-text-decoration:none;
-box-shadow:0 5px 15px rgba(0,0,0,.3);
-z-index:999;
-}
-
-.whatsapp:hover{
-transform:scale(1.1);
-}
-</style>
 </body>
 </html>
