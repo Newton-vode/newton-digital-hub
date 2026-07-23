@@ -3,11 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Buy Data - Newton's Digital Hub</title>
 
 <style>
-body{
+
+*{
+    box-sizing:border-box;
     font-family:Arial,sans-serif;
+}
+
+body{
     background:#f4f6f9;
     margin:0;
 }
@@ -16,42 +22,63 @@ header{
     background:#0d6efd;
     color:white;
     text-align:center;
-    padding:20px;
+    padding:25px;
 }
 
 .container{
+
     max-width:500px;
-    margin:30px auto;
     background:white;
+    margin:30px auto;
     padding:25px;
-    border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
 }
 
-label{
-    display:block;
-    margin-top:15px;
-    font-weight:bold;
-}
-
-select,input{
-    width:100%;
-    padding:12px;
-    margin-top:5px;
-    border:1px solid #ccc;
-    border-radius:6px;
-    font-size:16px;
-}
-
-.price{
-    margin-top:20px;
-    font-size:22px;
-    font-weight:bold;
-    color:#0d6efd;
+h2{
     text-align:center;
 }
 
+label{
+
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+
+}
+
+input, select{
+
+    width:100%;
+    padding:13px;
+    margin-top:6px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:16px;
+
+}
+
+
+.summary{
+
+    background:#f1f5ff;
+    padding:15px;
+    margin-top:20px;
+    border-radius:8px;
+
+}
+
+
+.summary p{
+
+    margin:8px 0;
+
+}
+
+
 button{
+
     width:100%;
     margin-top:20px;
     padding:15px;
@@ -61,42 +88,109 @@ button{
     border-radius:8px;
     font-size:18px;
     cursor:pointer;
+
 }
+
 
 button:hover{
-    background:#0a58ca;
+
+    background:#084298;
+
 }
+
+
+#message{
+
+    margin-top:20px;
+    text-align:center;
+    font-weight:bold;
+
+}
+
+
 </style>
+
 </head>
+
 <body>
 
+
 <header>
-<h2>Buy Data Bundles</h2>
+
+<h1>Newton's Digital Hub</h1>
+
+<p>Buy Data Bundles</p>
+
 </header>
+
 
 <div class="container">
 
-<label>Network</label>
-<select id="network">
-<option>MTN</option>
-<option>Telecel</option>
-<option>AirtelTigo</option>
-</select>
+
+<h2>Data Purchase</h2>
+
+
+<label>Full Name</label>
+
+<input type="text" id="name" placeholder="Enter your name">
+
+
+<label>Email Address</label>
+
+<input type="email" id="email" placeholder="Enter your email">
+
 
 <label>Phone Number</label>
-<input type="tel" placeholder="Enter phone number">
+
+<input type="tel" id="phone" placeholder="Enter phone number">
+
+
+<label>Network</label>
+
+<select id="network">
+
+<option>MTN</option>
+
+<option>Telecel</option>
+
+<option>AirtelTigo</option>
+
+</select>
+
 
 <label>Bundle</label>
+
 <select id="bundle"></select>
 
-<div class="price" id="price">Price: GH₵0.00</div>
 
-<button>Proceed to Payment</button>
+<div class="summary">
+
+<h3>Order Summary</h3>
+
+<p id="summaryNetwork">Network: MTN</p>
+
+<p id="summaryBundle">Bundle: </p>
+
+<p id="summaryPrice">Amount: GH₵0.00</p>
+
 
 </div>
 
-<script>
+
+<button id="payBtn">
+
+Proceed to Payment
+
+</button>
+
+
+<div id="message"></div>
+
+
+</div><script>
+
 const prices = {
+
 MTN:{
 "1 GB":6.12,
 "2 GB":12.24,
@@ -104,51 +198,229 @@ MTN:{
 "4 GB":24.48,
 "5 GB":30.60
 },
+
 Telecel:{
 "5 GB":25.48,
-"10 GB":51.,
+"10 GB":51.00,
 "15 GB":76.72,
-"20 GB":102,
+"20 GB":102.00,
 "25 GB":127.10,
-"30 GB":154
+"30 GB":154.00
 },
+
 AirtelTigo:{
-"5 GB":27,
-"10 GB":54,
-"15 GB":81,
-"20 GB":108,
-"25 GB":135,
-"30 GB":162
+"5 GB":27.00,
+"10 GB":54.00,
+"15 GB":81.00,
+"20 GB":108.00,
+"25 GB":135.00,
+"30 GB":162.00
 }
+
 };
 
-const network=document.getElementById("network");
-const bundle=document.getElementById("bundle");
-const price=document.getElementById("price");
+
+const network = document.getElementById("network");
+const bundle = document.getElementById("bundle");
+
+const summaryNetwork = document.getElementById("summaryNetwork");
+const summaryBundle = document.getElementById("summaryBundle");
+const summaryPrice = document.getElementById("summaryPrice");
+
 
 function loadBundles(){
-bundle.innerHTML="";
-const items=prices[network.value];
 
-for(let item in items){
-let option=document.createElement("option");
-option.text=item;
-option.value=item;
-bundle.appendChild(option);
+    bundle.innerHTML="";
+
+    let data = prices[network.value];
+
+    for(let item in data){
+
+        let option = document.createElement("option");
+
+        option.value = item;
+        option.text = item;
+
+        bundle.appendChild(option);
+
+    }
+
+    updateSummary();
+
 }
 
-updatePrice();
+
+
+function updateSummary(){
+
+    let amount = prices[network.value][bundle.value];
+
+    summaryNetwork.innerHTML =
+    "Network: " + network.value;
+
+    summaryBundle.innerHTML =
+    "Bundle: " + bundle.value;
+
+    summaryPrice.innerHTML =
+    "Amount: GH₵" + amount.toFixed(2);
+
 }
 
-function updatePrice(){
-price.innerHTML="Price: GH₵"+prices[network.value][bundle.value].toFixed(2);
-}
+
 
 network.addEventListener("change",loadBundles);
-bundle.addEventListener("change",updatePrice);
+
+bundle.addEventListener("change",updateSummary);
+
 
 loadBundles();
+
 </script>
+
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+
+<script>
+
+const payBtn = document.getElementById("payBtn");
+
+
+payBtn.addEventListener("click", function(){
+
+
+const name =
+document.getElementById("name").value;
+
+
+const email =
+document.getElementById("email").value;
+
+
+const phone =
+document.getElementById("phone").value;
+
+
+
+if(name==="" || email==="" || phone===""){
+
+document.getElementById("message").innerHTML =
+"Please fill all details before payment.";
+
+return;
+
+}
+
+
+
+const amount =
+prices[network.value][bundle.value] * 100;
+
+
+
+let handler = PaystackPop.setup({
+
+
+key:"pk_live_d4e57ba3229fb8d228ddbb1192f8026b8b9a1fb2",
+
+
+email:email,
+
+
+amount:amount,
+
+
+currency:"GHS",
+
+
+
+metadata:{
+
+custom_fields:[
+
+{
+
+display_name:"Customer Name",
+
+variable_name:"customer_name",
+
+value:name
+
+},
+
+{
+
+display_name:"Phone Number",
+
+variable_name:"phone",
+
+value:phone
+
+},
+
+{
+
+display_name:"Bundle",
+
+variable_name:"bundle",
+
+value:bundle.value
+
+},
+
+{
+
+display_name:"Network",
+
+variable_name:"network",
+
+value:network.value
+
+}
+
+]
+
+},
+
+
+
+callback:function(response){
+
+
+document.getElementById("message").innerHTML =
+
+"Payment successful!<br>Reference: "
+
++ response.reference;
+
+
+
+},
+
+
+
+onClose:function(){
+
+
+document.getElementById("message").innerHTML =
+
+"Payment cancelled.";
+
+}
+
+
+
+});
+
+
+handler.openIframe();
+
+
+});
+
+
+</script>
+
 
 </body>
 </html>
