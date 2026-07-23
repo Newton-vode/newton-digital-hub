@@ -251,10 +251,10 @@ payBtn.addEventListener("click", function(){
 
         callback: function(response){
 
-            document.getElementById("message").innerHTML =
-            "✅ Payment Successful!<br><br>Reference: " + response.reference;
+    window.location.href =
+    "success.html?reference=" + response.reference;
 
-        },
+},
 
         onClose: function(){
 
@@ -270,6 +270,32 @@ payBtn.addEventListener("click", function(){
 });
 
 </script>
+<a href="https://wa.me/233556248318" class="whatsapp" target="_blank">
+💬
+</a>
 
+<style>
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+width:60px;
+height:60px;
+background:#25D366;
+color:white;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:30px;
+text-decoration:none;
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+z-index:999;
+}
+
+.whatsapp:hover{
+transform:scale(1.1);
+}
+</style>
 </body>
 </html>
