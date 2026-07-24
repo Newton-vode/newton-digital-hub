@@ -8,7 +8,7 @@ document.getElementById("payBtn").addEventListener("click", async () => {
             body: JSON.stringify({
                 phone: document.getElementById("phone").value,
                 network: document.getElementById("network").value,
-                volume: document.getElementById("volume").value
+                volume: document.getElementById("bundle").value
             })
         });
 
