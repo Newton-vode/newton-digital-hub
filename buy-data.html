@@ -280,12 +280,53 @@ payBtn.addEventListener("click", function(){
 
         },
 
-        callback:function(response){
+        callback: async function(response){
 
+    const volumeMap = {
+        "1 GB": "1000",
+        "2 GB": "2000",
+        "3 GB": "3000",
+        "4 GB": "4000",
+        "5 GB": "5000",
+        "10 GB": "10000",
+        "15 GB": "15000",
+        "20 GB": "20000",
+        "25 GB": "25000",
+        "30 GB": "30000"
+    };
+
+    try {
+
+        const apiResponse = await fetch("/api/purchase", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                phone: phone,
+                network: network.value,
+                volume: volumeMap[bundle.value],
+                reference: response.reference
+            })
+        });
+
+        const result = await apiResponse.json();
+
+        if (apiResponse.ok) {
             window.location.href =
-            "success.html?reference=" + response.reference;
+                "success.html?reference=" + response.reference;
+        } else {
+            document.getElementById("message").innerHTML =
+                "Payment received, but bundle delivery failed.<br>" +
+                (result.message || "Please contact support.");
+        }
 
-        },
+    } catch (error) {
+        document.getElementById("message").innerHTML =
+            "Payment received, but we could not contact the delivery server.";
+    }
+
+},
 
         onClose:function(){
 
