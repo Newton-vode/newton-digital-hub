@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Data - Newton's Digital Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Newton's Digital Hub</h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="data.html">Buy Data</a>
+        <a href="checker.html">Result Checker</a>
+        <a href="track.html">Track Order</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+
+<section class="buy-data">
+
+    <h2>Buy Data Bundles</h2>
+    <p>Fast • Secure • Instant Delivery</p>
+
+
+    <div class="network-grid">
+
+        <div class="network-card" onclick="selectNetwork('MTN')">
+            <h3>🟡 MTN</h3>
+            <p>Instant Delivery</p>
+        </div>
+
+
+        <div class="network-card" onclick="selectNetwork('Telecel')">
+            <h3>🔴 Telecel</h3>
+            <p>Instant Delivery</p>
+        </div>
+
+
+        <div class="network-card" onclick="selectNetwork('AirtelTigo')">
+            <h3>🔵 AirtelTigo</h3>
+            <p>Instant Delivery</p>
+        </div>
+
+    </div>
+
+
+    <form id="orderForm">
+
+        <label>Selected Network</label>
+
+        <input 
+        type="text" 
+        id="network"
+        placeholder="Select a network above"
+        readonly>
+
+
+        <label>Select Bundle</label>
+
+        <select id="bundle">
+    <option value="">Choose Bundle</option>
+</select>
+
+
+<p id="price">
+    Price: GH₵0.00
+</p>
+
+
+        <label>Phone Number</label>
+
+        <input 
+        type="tel"
+        id="phone"
+        placeholder="0241234567"
+        required>
+
+
+        <div class="summary">
+
+    <h3>Order Summary</h3>
+
+    <p id="summaryNetwork">
+        Network: -
+    </p>
+
+    <p id="summaryBundle">
+        Bundle: -
+    </p>
+
+    <p id="summaryPhone">
+        Phone: -
+    </p>
+
+    <p id="summaryAmount">
+        Amount: GH₵0.00
+    </p>
+
+</div>
+
+
+<button type="button" onclick="payWithPaystack()">
+    Proceed to Payment
+</button>
+
+
+    </form>
+
+</section>
+
+
+<footer>
+
+<p>
+© 2026 Newton's Digital Hub. All Rights Reserved.
+</p>
+
+</footer>
+
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="js/paystack.js"></script>
+<script src="js/order.js"></script>
+
+
+</body>
+</html>
